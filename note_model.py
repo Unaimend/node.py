@@ -9,7 +9,7 @@ class NoteModel:
     def __init__(self):
         if not os.path.exists("Notebooks"):
             os.makedirs("Notebooks")
-        self.notebooks: Dict[Notebook] = {}
+        self.notebooks: Dict[Notebook] = dict()
 
     def new_notebook(self, name: str):
         logger.info("New notebook " + name)
