@@ -5,3 +5,5 @@ __pycache__
 Notebooks/
 
 \.mypy_cache/3\.7/
+
+debug\.log

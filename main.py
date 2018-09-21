@@ -9,7 +9,6 @@ if __name__ == "__main__":
     view = NoteConsoleView(model)
     controller = NoteController(model=model, view=view)
     print("WTF")
-    view.add_observer(controller)
     view.run()
 
     logger.fh.close()

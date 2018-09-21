@@ -1,21 +1,35 @@
 """Implements the View from MVC, aka. showing the data to the user"""
+from observer import Subject
+from enum import Enum
+# TODO HEY CONTROLLER ETWAS IST PASSIERT< und der controller dan so getShirt
 
-class NoteConsoleView:
+class NoteConsoleView(Subject):
     """Implements the View from MVC, aka. showing the data to the user"""
+    class State(Enum):
+        NEW_NOTEBOOK = 1,
+        LOAD = 2
+        SAVE = 3
+        SET_CURRENT_NOTEBOOK = 4
+        SAVE_ALL = 5
+        OPEN = 6,
+        ADD = 7,
+        PRINT = 8
+
     def __init__(self, model):
         """
         Constructor
         :param model: The model from which the view gets the data
         """
+        Subject.__init__(self)
         self.model = model
-        self.observer = None
 
-    def add_observer(self, observer) -> None:
+
+    def attach(self, observer) -> None:
         """
         Adds an observer to the mdoel which listens to user input
         :param observer: The observer which should be listening 
         """
-        self.observer = observer
+        Subject.attach(self, observer)
 
     def run(self) -> None:
         """
@@ -25,33 +39,37 @@ class NoteConsoleView:
         print("(1) Make new notebook")
         print("(2) Save notebook")
         print("(3) Load notebook")
-        print("(4) print note")
-        print("(5) add note")
+        print("(4) Open notebook")
+        print("(5) Add note")
         print("(6) Exit")
-
 
         while True:
             x = input("Please choose an option:\n")
             if x == "1":
                 name: str = input("what should be the name of the new notebook:\n")
-                self.observer.new_notebook(name)
+                self.subject_state = self.State.NEW_NOTEBOOK, name
             elif x == "2":
                 name: str = input("Which notebook do you want to save:\n")
-                self.observer.save_notebook(name)
+                self.subject_state = self.State.SAVE, name
             elif x == "3":
                 name: str = input("Which notebook do you want to load:\n")
                 self.observer.load_notebook(name)
             elif x == "4":
-                notebook_name: str = input("From which notebook do you want to print:\n")
-                note_name: str = input("which note do you want to print:\n")
-                self.model.print_note(notebook_name, note_name)
+                notebook_name: str = input("Which notebook do you want to open:\n")
+                self.subject_state = self.State.OPEN, notebook_name
             elif x == "5":
-                notebook_name: str = input("Name of te Notebook:\n")
                 note_name: str = input("Name of the note:\n")
                 text: str = input("TEXT:\n")
-                self.observer.add_note(notebook_name, note_name,text)
+                self.subject_state = self.State.ADD, note_name, text
             elif x == "6":
-                self.observer.exit()
+                note_name: str = input("Name of the note ypu want to print:\n")
+                print(self.model.get_note_text(note_name))
+
+            elif x == "7":
+                self.subject_state = self.State.SAVE_ALL, ""
+
+
+
 
 
 
