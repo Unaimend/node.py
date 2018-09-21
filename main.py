@@ -10,6 +10,6 @@ if __name__ == "__main__":
     controller = NoteController(model=model, view=view)
     print("WTF")
     view.run()
-
+    view.subject_state = view.State.SAVE_ALL
     logger.fh.close()
 
