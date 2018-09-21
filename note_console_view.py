@@ -41,8 +41,7 @@ class NoteConsoleView(Subject):
         print("(3) Load notebook")
         print("(4) Open notebook")
         print("(5) Add note")
-        print("(6) Print note")
-        print("(7) Exit")
+        print("(6) Exit")
 
         while True:
             x = input("Please choose an option:\n")
@@ -54,7 +53,7 @@ class NoteConsoleView(Subject):
                 self.subject_state = self.State.SAVE, name
             elif x == "3":
                 name: str = input("Which notebook do you want to load:\n")
-                self.subject_state = self.State.LOAD, name
+                self.observer.load_notebook(name)
             elif x == "4":
                 notebook_name: str = input("Which notebook do you want to open:\n")
                 self.subject_state = self.State.OPEN, notebook_name
@@ -65,6 +64,7 @@ class NoteConsoleView(Subject):
             elif x == "6":
                 note_name: str = input("Name of the note ypu want to print:\n")
                 print(self.model.get_note_text(note_name))
+
             elif x == "7":
                 self.subject_state = self.State.SAVE_ALL, ""
 
