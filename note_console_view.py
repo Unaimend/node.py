@@ -1,18 +1,22 @@
 """Implements the View from MVC, aka. showing the data to the user"""
-from observer import Subject
 from enum import Enum
-# TODO HEY CONTROLLER ETWAS IST PASSIERT< und der controller dan so getShirt
+from observer import Subject
 
 
 class NoteConsoleView(Subject):
     """Implements the View from MVC, aka. showing the data to the user"""
     class State(Enum):
-        NEW_NOTEBOOK = 1,
+        """"
+        Private class to capture the state of te program,
+        can be used from an observer to implement actions 
+        when the state changes
+        """
+        NEW_NOTEBOOK = 1
         SAVE = 3
         SET_CURRENT_NOTEBOOK = 4
         SAVE_ALL = 5
-        OPEN = 6,
-        ADD = 7,
+        OPEN = 6
+        ADD = 7
         PRINT = 8
 
     def __init__(self, model):
@@ -31,11 +35,18 @@ class NoteConsoleView(Subject):
         Subject.attach(self, observer)
 
     @staticmethod
-    def show_error(text):
+    def show_error(text) -> None:
+        """
+        Prints an error message 
+        :param text: The error message you want to print 
+        """
         print(text)
 
     @staticmethod
-    def print_options():
+    def print_options() -> None:
+        """
+        Prints all the options you have in the program
+        """
         print("What do you want to do")
         print("(1) Make new notebook")
         print("(2) Save notebook")
@@ -58,7 +69,7 @@ class NoteConsoleView(Subject):
                 name: str = input("what should be the name of the new notebook:\n")
                 self.subject_state = self.State.NEW_NOTEBOOK, name
             elif x == "3":
-                if len(self.model.list_all_notebooks()) == 0:
+                if self.model.list_all_notebooks():
                     print("The notebook folder is empty")
                 else:
                     for x in self.model.list_all_notebooks():
@@ -89,7 +100,7 @@ class NoteConsoleView(Subject):
                         note_name: str = input("Name of the note you want to print:\n")
                         print(self.model.get_note_text(note_name))
                     elif x == "7":
-                        if len(self.model.list_all_notes()) == 0:
+                        if self.model.list_all_notes():
                             print("This notebook contains no notes")
                         else:
                             for x in self.model.list_all_notes():

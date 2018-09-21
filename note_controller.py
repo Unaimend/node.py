@@ -40,7 +40,6 @@ class NoteController(Observer):
         except KeyError:
             raise KeyError
 
-
     def save_all_notebooks(self) -> None:
         """See self.model.save_all_notebooks for documentation"""
         logger.info("Saving all notebooks")
