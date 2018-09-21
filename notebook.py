@@ -5,9 +5,10 @@ from note import Note
 class Notebook:
     def __init__(self, name):
         self.name = name
-        self.notes: Dict[Note] = {}
+        self.notes: Dict[str, Note] = {}
 
     def add_note(self, name: str, text: str) -> None:
-        self.notes[name] = Note(name, "TEXT" + text)
+        self.notes[name] = Note(name, text)
+
     def get_note_text(self, name):
-        return self.notes[name].__repr__
+        return self.notes[name].__repr__()
