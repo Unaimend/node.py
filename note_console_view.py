@@ -23,13 +23,15 @@ class NoteConsoleView(Subject):
         Subject.__init__(self)
         self.model = model
 
-
     def attach(self, observer) -> None:
         """
         Adds an observer to the mdoel which listens to user input
         :param observer: The observer which should be listening 
         """
         Subject.attach(self, observer)
+    @staticmethod
+    def show_error(text):
+        print(text)
 
     def run(self) -> None:
         """
@@ -53,7 +55,7 @@ class NoteConsoleView(Subject):
                 self.subject_state = self.State.SAVE, name
             elif x == "3":
                 name: str = input("Which notebook do you want to load:\n")
-                self.observer.load_notebook(name)
+                self.subject_state = self.State.LOAD, name
             elif x == "4":
                 notebook_name: str = input("Which notebook do you want to open:\n")
                 self.subject_state = self.State.OPEN, notebook_name

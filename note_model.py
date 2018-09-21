@@ -10,7 +10,7 @@ class NoteModel:
         if not os.path.exists("Notebooks"):
             os.makedirs("Notebooks")
         self.notebooks: Dict[str, Notebook] = {}
-        self.current_notebook: str = None
+        self.current_notebook: str = "a"
 
     def new_notebook(self, name: str):
         logger.info("New notebook " + name)
@@ -41,15 +41,13 @@ class NoteModel:
             self.save_notebook(notebook_name)
         logger.info("Saving off all notebooks finished")
 
-
     def add_note(self, note_name, note_text):
-        logger.info("Making new note in" + self.current_notebook + "with name" + note_name  )
+        logger.info("Making new note in" + self.current_notebook + "with name" + note_name )
         self.notebooks[self.current_notebook].add_note(note_name, note_text)
 
     def get_note_text(self, note_name):
         return self.notebooks[self.current_notebook].get_note_text(note_name)
 
-    # def get_notes(self, name):
-    #     return Notebook.notes[name]
+
 
 
