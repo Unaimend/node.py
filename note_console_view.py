@@ -46,7 +46,6 @@ class NoteConsoleView(Subject):
         print("(7) Exit")
         print("(8) Help")
 
-
     def run(self) -> None:
         """
         Starts the interactive part of the application
@@ -58,8 +57,11 @@ class NoteConsoleView(Subject):
                 name: str = input("what should be the name of the new notebook:\n")
                 self.subject_state = self.State.NEW_NOTEBOOK, name
             elif x == "3":
-                for x in self.model.list_all_notebooks():
-                    print(x)
+                if len(self.model.list_all_notebooks()) == 0:
+                    print("The notebook folder is empty")
+                else:
+                    for x in self.model.list_all_notebooks():
+                        print(x)
             elif x == "7":
                 self.subject_state = self.State.SAVE_ALL, ""
             elif x == "4":
