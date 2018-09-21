@@ -2,6 +2,7 @@
 from typing import Dict
 from note import Note
 
+
 class Notebook:
     def __init__(self, name):
         self.name = name

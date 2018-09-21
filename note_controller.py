@@ -1,6 +1,7 @@
 """
 Module which implements the controller from the MCV-Pattern
 """
+from typing import List
 from note_console_view import NoteConsoleView
 from note_model import NoteModel
 from observer import Observer
@@ -16,6 +17,7 @@ class NoteController(Observer):
     def __init__(self, model: NoteModel, view: NoteConsoleView):
         Observer.__init__(self)
         self.model = model
+        self.load_notebooks()
         self.view = view
         self.view.attach(self)
 
@@ -23,13 +25,13 @@ class NoteController(Observer):
         """See self.model.new_notebook for documentation"""
         self.model.new_notebook(notebook_name)
 
-    def save_notebook(self, notebook_name) -> None:
+    def save_notebook(self) -> None:
         """See self.model.save_notebook for documentation"""
-        self.model.save_notebook(notebook_name)
+        self.model.save_notebook()
 
-    def load_notebook(self, notebook_name) -> None:
+    def load_notebooks(self) -> None:
         """See self.model.load_notebook for documentation"""
-        self.model.load_notebook(notebook_name)
+        self.model.load_notebooks()
 
     def add_note(self, note_name, text) -> None:
         """See self.model.add_note for documentation"""
@@ -56,14 +58,12 @@ class NoteController(Observer):
             logger.info("Making new notebook %s", arg[1])
             self.new_notebook(notebook_name=arg[1])
         elif state == self.view.State.SAVE:
-            self.save_notebook(notebook_name=arg[1])
+            self.save_notebook()
         elif state == self.view.State.OPEN:
             self.model.current_notebook = arg[1]
         elif state == self.view.State.ADD:
             logger.info("Adding new note with name " + arg[1] + " and text " + arg[2])
             self.add_note(arg[1], arg[2])
-        elif state == self.view.State.LOAD:
-            self.load_notebook(arg[1])
         elif state == self.view.State.SAVE_ALL:
             self.save_all_notebooks()
             NoteController.exit()
@@ -72,4 +72,3 @@ class NoteController(Observer):
     def exit():
         """Closes the application"""
         exit(0)
-
