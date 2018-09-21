@@ -35,7 +35,11 @@ class NoteController(Observer):
 
     def add_note(self, note_name, text) -> None:
         """See self.model.add_note for documentation"""
-        self.model.add_note(note_name, text)
+        try:
+            self.model.add_note(note_name, text)
+        except KeyError:
+            raise KeyError
+
 
     def save_all_notebooks(self) -> None:
         """See self.model.save_all_notebooks for documentation"""
@@ -60,7 +64,10 @@ class NoteController(Observer):
         elif state == self.view.State.SAVE:
             self.save_notebook()
         elif state == self.view.State.OPEN:
-            self.model.current_notebook = arg[1]
+            if arg[1] in self.model.notebooks:
+                self.model.current_notebook = arg[1]
+            else:
+                raise KeyError
         elif state == self.view.State.ADD:
             logger.info("Adding new note with name " + arg[1] + " and text " + arg[2])
             self.add_note(arg[1], arg[2])

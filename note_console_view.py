@@ -43,8 +43,9 @@ class NoteConsoleView(Subject):
         print("(4) Open notebook")
         print("(5) Add note")
         print("(6) Print note")
-        print("(7) Exit")
-        print("(8) Help")
+        print("(7) List all notes")
+        print("(8) Exit")
+        print("(9) Help")
 
     def run(self) -> None:
         """
@@ -62,12 +63,16 @@ class NoteConsoleView(Subject):
                 else:
                     for x in self.model.list_all_notebooks():
                         print(x)
-            elif x == "7":
-                self.subject_state = self.State.SAVE_ALL, ""
             elif x == "4":
                 notebook_name: str = input("Which notebook do you want to open:\n")
-                self.subject_state = self.State.OPEN, notebook_name
+                try:
+                    self.subject_state = self.State.OPEN, notebook_name
+                except KeyError:
+                    error = "A notebook with the name " + notebook_name + " doesn't exist"
+                    NoteConsoleView.show_error(error)
             elif x == "8":
+                self.subject_state = self.State.SAVE_ALL, ""
+            elif x == "9":
                 NoteConsoleView.print_options()
             else:
                 if self.model.current_notebook is None:
@@ -81,8 +86,14 @@ class NoteConsoleView(Subject):
                         text: str = input("Text:\n")
                         self.subject_state = self.State.ADD, note_name, text
                     elif x == "6":
-                        note_name: str = input("Name of the note yuu want to print:\n")
+                        note_name: str = input("Name of the note you want to print:\n")
                         print(self.model.get_note_text(note_name))
+                    elif x == "7":
+                        if len(self.model.list_all_notes()) == 0:
+                            print("This notebook contains no notes")
+                        else:
+                            for x in self.model.list_all_notes():
+                                print(x)
 
 
 

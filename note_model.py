@@ -4,6 +4,8 @@ from typing import Dict, List
 import pickle
 from logger import logger
 from notebook import Notebook
+
+
 class NoteModel:
     """Implements the Model from MVC, aka. loading and handling the data"""
     def __init__(self):
@@ -52,9 +54,18 @@ class NoteModel:
             names.append(name)
         return names
 
+    def list_all_notes(self) -> List[str]:
+        names = []
+        for name in self.notebooks[self.current_notebook].notes:
+            names.append(name)
+        return names
+
     def add_note(self, note_name, note_text):
         logger.info("Making new note in" + self.current_notebook + "with name" + note_name )
-        self.notebooks[self.current_notebook].add_note(note_name, note_text)
+        try:
+            self.notebooks[self.current_notebook].add_note(note_name, note_text)
+        except KeyError:
+            raise KeyError
 
     def get_note_text(self, note_name):
         return self.notebooks[self.current_notebook].get_note_text(note_name)
