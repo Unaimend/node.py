@@ -50,7 +50,7 @@ class NoteConsoleView(Subject):
         print("What do you want to do")
         print("(1) Make new notebook")
         print("(2) Save notebook")
-        print("(3) List notebook")
+        print("(3) List notebooks")
         print("(4) Open notebook")
         print("(5) Add note")
         print("(6) Print note")
@@ -69,7 +69,7 @@ class NoteConsoleView(Subject):
                 name: str = input("what should be the name of the new notebook:\n")
                 self.subject_state = self.State.NEW_NOTEBOOK, name
             elif x == "3":
-                if self.model.list_all_notebooks():
+                if len(self.model.list_all_notebooks()) == 0:
                     print("The notebook folder is empty")
                 else:
                     for x in self.model.list_all_notebooks():
@@ -100,7 +100,7 @@ class NoteConsoleView(Subject):
                         note_name: str = input("Name of the note you want to print:\n")
                         print(self.model.get_note_text(note_name))
                     elif x == "7":
-                        if self.model.list_all_notes():
+                        if len(self.model.list_all_notes()) == 0:
                             print("This notebook contains no notes")
                         else:
                             for x in self.model.list_all_notes():

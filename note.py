@@ -6,4 +6,6 @@ class Note:
         self.text = text
 
     def __repr__(self):
-         return self.text
+        return self.text
+
+
