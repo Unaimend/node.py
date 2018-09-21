@@ -14,17 +14,17 @@ class NoteController(Observer):
         self.view = view
         self.view.attach(self)
 
-    def new_notebook(self, name) -> None:
-        self.model.new_notebook(name)
+    def new_notebook(self, notebook_name) -> None:
+        self.model.new_notebook(notebook_name)
 
-    def save_notebook(self, name) -> None:
-        self.model.save_notebook(name)
+    def save_notebook(self, notebook_name) -> None:
+        self.model.save_notebook(notebook_name)
 
-    def load_notebook(self, name):
-        self.model.load_notebook(name)
+    def load_notebook(self, notebook_name):
+        self.model.load_notebook(notebook_name)
 
-    def add_note(self, notebook_name, note_name,text):
-        self.model.add_note(notebook_name, note_name, text)
+    def add_note(self, note_name,text):
+        self.model.add_note(note_name, text)
 
     def save_all_notebooks(self):
         logger.info("Saving all notebooks")
@@ -38,9 +38,9 @@ class NoteController(Observer):
         logger.info("State: "  + str(state))
         if state == self.view.State.NEW_NOTEBOOK:
             logger.info("Making new notebook" + arg[1])
-            self.new_notebook(name=arg[1])
+            self.new_notebook(notebook_name=arg[1])
         elif state == self.view.State.SAVE:
-            self.save_notebook(name=arg[1])
+            self.save_notebook(notebook_name=arg[1])
         elif state == self.view.State.OPEN:
             self.model.current_notebook = arg[1]
         elif state == self.view.State.ADD:
