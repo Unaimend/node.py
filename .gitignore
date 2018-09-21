@@ -1,3 +1,7 @@
 project_env
 .idea
 __pycache__
+
+Notebooks/
+
+\.mypy_cache/3\.7/
