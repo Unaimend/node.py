@@ -1,7 +1,6 @@
 """
 Module which implements the controller from the MCV-Pattern
 """
-from typing import List
 from note_console_view import NoteConsoleView
 from note_model import NoteModel
 from observer import Observer
