@@ -46,6 +46,8 @@ class NoteController(Observer):
         elif state == self.view.State.ADD:
             logger.info("Adding new note with name " + arg[1] + " and text " + arg[2])
             self.model.add_note(arg[1], arg[2])
+        elif state == self.view.State.LOAD:
+            self.model.load_notebook(arg[1])
         elif state == self.view.State.SAVE_ALL:
             self.save_all_notebooks()
             self.exit()

@@ -18,12 +18,12 @@ class NoteModel:
         self.notebooks[name] = notebook
 
     def save_notebook(self, name):
-        logger.info("Saving" + name)
+        logger.info("Saving " + name)
         filename = "Notebooks/" + name
         outfile = open(filename, 'wb')
         pickle.dump(self.notebooks[name], outfile)
         outfile.close()
-        logger.info(" Saved" + name)
+        logger.info(" Saved " + name)
 
     def load_notebook(self, name):
         logger.info("Loading" + name)
@@ -39,6 +39,8 @@ class NoteModel:
         for notebook_name in self.notebooks:
             logger.info(" Saving " + notebook_name)
             self.save_notebook(notebook_name)
+        logger.info("Saving off all notebooks finished")
+
 
     def add_note(self, note_name, note_text):
         logger.info("Making new note in" + self.current_notebook + "with name" + note_name  )
