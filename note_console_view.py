@@ -59,7 +59,7 @@ class NoteConsoleView(Subject):
                 self.subject_state = self.State.OPEN, notebook_name
             elif x == "5":
                 note_name: str = input("Name of the note:\n")
-                text: str = input("TEXT:\n")
+                text: str = input("Text:\n")
                 self.subject_state = self.State.ADD, note_name, text
             elif x == "6":
                 note_name: str = input("Name of the note ypu want to print:\n")
