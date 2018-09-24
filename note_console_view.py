@@ -81,30 +81,24 @@ class NoteConsoleView(Subject):
                 except KeyError:
                     error = "A notebook with the name " + notebook_name + " doesn't exist"
                     NoteConsoleView.show_error(error)
+            elif x == "5":
+                note_name: str = input("Name of the note:\n")
+                text: str = input("Text:\n")
+                self.subject_state = self.State.ADD, note_name, text
+            elif x == "6":
+                note_name: str = input("Name of the note you want to print:\n")
+                print(self.model.get_note_text(note_name))
+            elif x == "7":
+                if not self.model.list_all_notes():
+                    print("This notebook contains no notes")
+                else:
+                    for x in self.model.list_all_notes():
+                        print(x)
             elif x == "8":
                 self.subject_state = self.State.SAVE_ALL, ""
             elif x == "9":
                 NoteConsoleView.print_options()
-            else:
-                if self.model.current_notebook is None:
-                    self.show_error("You have to open a notebook, before ")
-                    continue
-                else:
-                    if x == "2":
-                        self.subject_state = self.State.SAVE, ""
-                    elif x == "5":
-                        note_name: str = input("Name of the note:\n")
-                        text: str = input("Text:\n")
-                        self.subject_state = self.State.ADD, note_name, text
-                    elif x == "6":
-                        note_name: str = input("Name of the note you want to print:\n")
-                        print(self.model.get_note_text(note_name))
-                    elif x == "7":
-                        if len(self.model.list_all_notes()) == 0:
-                            print("This notebook contains no notes")
-                        else:
-                            for x in self.model.list_all_notes():
-                                print(x)
+
 
 
 
