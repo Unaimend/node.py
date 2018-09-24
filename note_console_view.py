@@ -68,8 +68,10 @@ class NoteConsoleView(Subject):
             if x == "1":
                 name: str = input("what should be the name of the new notebook:\n")
                 self.subject_state = self.State.NEW_NOTEBOOK, name
+            elif x == "2":
+                self.subject_state = self.State.SAVE, ""
             elif x == "3":
-                if len(self.model.list_all_notebooks()) == 0:
+                if not self.model.list_all_notebooks():
                     print("The notebook folder is empty")
                 else:
                     for x in self.model.list_all_notebooks():
