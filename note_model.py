@@ -32,13 +32,7 @@ class NoteModel:
         """
         Saves a notebook to the disk
         :param name: The name of the notebook which should be saved 
-        :raises Exception: Raises an exception if the self.current_notebook is none
-            which means that the user didn't open a notebook and the application doesn't
-            know which notebook should be saved
         """
-        if self.current_notebook is None:
-            raise Exception("self.current must not be none")
-
         logger.info("Saving %s", name)
         filename = "Notebooks/" + name
         outfile = open(filename, 'wb')
@@ -70,6 +64,7 @@ class NoteModel:
         logger.info("%s to save", str(len(self.notebooks)))
         for notebook_name in self.notebooks:
             logger.info(" Saving %s", notebook_name)
+            self.current_notebook = self.notebooks[notebook_name]
             self.save_notebook(notebook_name)
         logger.info("Saving off all notebooks finished")
 
