@@ -77,18 +77,18 @@ class NoteConsoleView(Subject):
                     for x in self.model.list_all_notebooks():
                         print(x)
             elif x == "4":
-                notebook_name: str = input("Which notebook do you want to open:\n")
+                notebook_name = input("Which notebook do you want to open:\n")
                 try:
                     self.subject_state = self.State.OPEN, notebook_name
                 except KeyError:
                     error = "A notebook with the name " + notebook_name + " doesn't exist"
                     NoteConsoleView.show_error(error)
             elif x == "5":
-                note_name: str = input("Name of the note:\n")
-                text: str = input("Text:\n")
+                note_name = input("Name of the note:\n")
+                text = input("Text:\n")
                 self.subject_state = self.State.ADD, note_name, text
             elif x == "6":
-                note_name: str = input("Name of the note you want to print:\n")
+                note_name = input("Name of the note you want to print:\n")
                 print(self.model.get_note_text(note_name))
             elif x == "7":
                 if not self.model.list_all_notes():

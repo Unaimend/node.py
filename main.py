@@ -3,13 +3,18 @@ from note_controller import NoteController
 from note_model import NoteModel
 from note_console_view import NoteConsoleView
 import logger
-from kivy_view import KivyApp
-
+from PySide2 import QtWidgets
+from qt_view import QtView
+import sys
 if __name__ == "__main__":
     MODEL = NoteModel()
-    VIEW = KivyApp(MODEL)
-    CONTROLLER = NoteController(model=MODEL, view=VIEW)
+    app = QtWidgets.QApplication(sys.argv)
+    VIEW = QtView(model=MODEL)
+    VIEW.setMinimumSize(800, 800)
+    # CONTROLLER = NoteController(model=MODEL, view=VIEW)
     VIEW.run()
-    VIEW.subject_state = VIEW.State.SAVE_ALL, ""
+    # VIEW.subject_state = VIEW.State.SAVE_ALL, ""
     logger.fh.close()
+    sys.exit(app.exec_())
+
 

@@ -13,7 +13,7 @@ class NoteController(Observer):
     :param model: The model from mvc
     :param view:  The view from mvc
     """
-    def __init__(self, model: NoteModel, view: NoteConsoleView):
+    def __init__(self, model: NoteModel, view: NoteConsoleView) -> None:
         Observer.__init__(self)
         self.model = model
         self.load_notebooks()
@@ -26,7 +26,7 @@ class NoteController(Observer):
 
     def save_notebook(self) -> None:
         """See self.model.save_notebook for documentation"""
-        self.model.save_notebook()
+        self.model.save_notebook(self.model.current_notebook)
 
     def load_notebooks(self) -> None:
         """See self.model.load_notebook for documentation"""

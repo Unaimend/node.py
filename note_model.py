@@ -8,7 +8,7 @@ from notebook import Notebook
 
 class NoteModel:
     """Implements the Model from MVC, aka. loading and handling the data"""
-    def __init__(self):
+    def __init__(self) -> None:
         if not os.path.exists("Notebooks"):
             os.makedirs("Notebooks")
         self.notebooks: Dict[str, Notebook] = {}
@@ -64,7 +64,6 @@ class NoteModel:
         logger.info("%s to save", str(len(self.notebooks)))
         for notebook_name in self.notebooks:
             logger.info(" Saving %s", notebook_name)
-            self.current_notebook = self.notebooks[notebook_name]
             self.save_notebook(notebook_name)
         logger.info("Saving off all notebooks finished")
 
@@ -94,7 +93,7 @@ class NoteModel:
             return names
         return ["There are no notes"]
 
-    def add_note(self, note_name, note_text) -> None:
+    def add_note(self, note_name: str, note_text: str) -> None:
         """
         Adds a note the current notebook
         :param note_name: The name of the note which should be added
@@ -109,7 +108,7 @@ class NoteModel:
         logger.info("Making new note in %s with name %s", self.current_notebook, note_name)
         self.notebooks[self.current_notebook].add_note(note_name, note_text)
 
-    def get_note_text(self, note_name) -> None:
+    def get_note_text(self, note_name: str) -> None:
         """
         Gets the text of the note as a string
         :param note_name: The name of the note from which to get the text 
