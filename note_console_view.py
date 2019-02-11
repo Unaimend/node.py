@@ -91,11 +91,8 @@ class NoteConsoleView(Subject):
                 note_name = input("Name of the note you want to print:\n")
                 print(self.model.get_note_text(note_name))
             elif x == "7":
-                if not self.model.list_all_notes():
-                    print("This notebook contains no notes")
-                else:
-                    for x in self.model.list_all_notes():
-                        print(x)
+                for x in self.model.list_all_notes():
+                    print(x)
             elif x == "8":
                 self.subject_state = self.State.SAVE_ALL, ""
             elif x == "9":
