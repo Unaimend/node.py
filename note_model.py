@@ -12,7 +12,8 @@ class NoteModel:
         if not os.path.exists("Notebooks"):
             os.makedirs("Notebooks")
         self.notebooks: Dict[str, Notebook] = {}
-        self.current_notebook: str = None
+        # Contains the currently opened notebook
+        self.current_notebook: Notebook = None
 
     def new_notebook(self, name: str) -> None:
         """
@@ -21,24 +22,28 @@ class NoteModel:
         :raises Exception: Raises an exception if one tries to create a notebook with an
             name that already exists
         """
+        # TODO If self.current note is note None, then the user has already an
+        # openede notebook, which means that the program should ask if
+        # he(the user) wants to save the current notebook
         logger.info("Creating notebook %s", name)
         notebook = Notebook(name)
         if name in self.notebooks:
             raise Exception("A note which the given name already exists")
         self.notebooks[name] = notebook
+        self.current_notebook = notebook
         logger.info("Created notebook %s", name)
 
-    def save_notebook(self, name: str) -> None:
+    def save_notebook(self, notebook: Notebook) -> None:
         """
         Saves a notebook to the disk
         :param name: The name of the notebook which should be saved 
         """
-        logger.info("Saving %s", name)
-        filename = "Notebooks/" + name
+        logger.info("Saving %s", notebook.name)
+        filename = "Notebooks/" + notebook.name
         outfile = open(filename, 'wb')
-        pickle.dump(self.notebooks[name], outfile)
+        pickle.dump(self.notebooks[notebook.name], outfile)
         outfile.close()
-        logger.info(" Saved %s", name)
+        logger.info(" Saved %s", notebook.name)
 
     def load_notebooks(self) -> None:
         """
@@ -63,8 +68,8 @@ class NoteModel:
         logger.info("Saving off all notebooks started")
         logger.info("%s to save", str(len(self.notebooks)))
         for notebook_name in self.notebooks:
-            logger.info(" Saving %s", notebook_name)
-            self.save_notebook(notebook_name)
+            logger.info(" Saving %s", self.notebooks[notebook_name])
+            self.save_notebook(self.notebooks[notebook_name])
         logger.info("Saving off all notebooks finished")
 
     def list_all_notebooks(self) -> List[str]:
@@ -85,7 +90,7 @@ class NoteModel:
         :return: A list of all the note in currently open notebook
         """
         if self.current_notebook is None:
-            raise Exception("self.current must not be none")
+            return ["No currently opened notebook"]
         names = []
         for name in self.notebooks[self.current_notebook].notes:
             names.append(name)
@@ -105,8 +110,8 @@ class NoteModel:
         if self.current_notebook is None:
             raise Exception("self.current must not be none")
 
-        logger.info("Making new note in %s with name %s", self.current_notebook, note_name)
-        self.notebooks[self.current_notebook].add_note(note_name, note_text)
+        logger.info("Making new note in %s with name %s", note_name, "and the text is", note_text)
+        self.notebooks[self.current_notebook.name].add_note(note_name, note_text)
 
     def get_note_text(self, note_name: str) -> None:
         """
@@ -117,7 +122,7 @@ class NoteModel:
         if self.current_notebook is None:
             raise Exception("self.current must not be none")
 
-        return self.notebooks[self.current_notebook].get_note_text(note_name)
+        return self.notebooks[self.current_notebook.name].get_note_text(note_name)
 
 
 

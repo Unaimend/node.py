@@ -32,11 +32,12 @@ class NoteController(Observer):
         """See self.model.load_notebook for documentation"""
         self.model.load_notebooks()
 
-    def add_note(self, note_name, text) -> None:
+    def add_note(self, note_name: str, text) -> None:
         """See self.model.add_note for documentation"""
         try:
             self.model.add_note(note_name, text)
         except KeyError:
+            logger.error("The note: " + note_name + "could not been added" )
             raise KeyError
 
     def save_all_notebooks(self) -> None:
@@ -52,7 +53,6 @@ class NoteController(Observer):
         :param arg: Arguments which the observed class wants to be transmitted
         """
         logger.info("arg: %s Length: %s ", str(arg), str(len(arg)))
-
         state = arg[0]
 
         logger.info("State: %s", str(state))
@@ -62,8 +62,9 @@ class NoteController(Observer):
         elif state == self.view.State.SAVE:
             self.save_notebook()
         elif state == self.view.State.OPEN:
+            logger.info("Opening " + arg[1])
             if arg[1] in self.model.notebooks:
-                self.model.current_notebook = arg[1]
+                self.model.current_notebook = self.model.notebooks[arg[1]]
             else:
                 raise KeyError
         elif state == self.view.State.ADD:
